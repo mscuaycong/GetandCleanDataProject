@@ -1,20 +1,30 @@
+##Course Project Script - Getting And Cleaning Data Course
+## Input: https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip 
+## Additional Info re data:
+##http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
+## authored by:  M Cuaycong
 
 #set working directory
 #../courseproject
 
+#Call the packages needed for this script
 library(data.table)
 library(dplyr)
 library(plyr)
+
 list.files("./UCI HAR Dataset/train")
 
+#Store directory nmes for data files
 traindir<-"./UCI HAR Dataset/train/"
 testdir<-"./UCI HAR Dataset/test/"
 
 ##READ files common to TRAIN and TEST Groups
-#read feature names
+#read feature names - these will describe the 561 variable features for each
+#activity set
 feat<-read.table("./UCI HAR Dataset/features.txt")
 feat<-data.table(feat)
 
+#Describes each of the 6 activity types
 act_labels<-read.table("./UCI HAR Dataset/activity_labels.txt")
 act_labels<-data.table(act_labels)
 

@@ -1,5 +1,4 @@
-
-# GetandCleanDataProject
+## GetandCleanDataProject
 Course project for the Getting and Cleaning Data course
 
 ##FILES INCLUDED
