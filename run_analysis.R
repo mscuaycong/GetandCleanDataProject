@@ -3,14 +3,16 @@
 ## Additional Info re data:
 ##http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones 
 ## authored by:  M Cuaycong
+##
 
 #set working directory
 #../courseproject
 
 #Call the packages needed for this script
 library(data.table)
-library(dplyr)
 library(plyr)
+library(dplyr)
+
 
 list.files("./UCI HAR Dataset/train")
 
@@ -129,13 +131,17 @@ alldata_1<-select(alldata,settype,subjID,actcode,actname,
 ##Create another tidy dataset with only the means of the variables
 ## grouped by Activity and by Subject
 by_act_sub<- select(alldata_1,actname,subjID,5:90)
-meandat<-aggregate(by_act_sub,
-               by=list(g.actname=by_act_sub$actname,g.subjID=by_act_sub$subjID),
-               mean)
-meandat<-meandat%>%
-    arrange(g.actname,g.subjID)%>%
-    select(-actname,-subjID)
+
+meandat<- ddply(by_act_sub, .(actname,subjID), numcolwise(mean))
 
 #output Meandat which contains the means to a text file.
 write.table(meandat,file="./meandat.txt",row.names=FALSE)
 
+
+##Alternate mean calculation for all columns grouped by
+#meandat<-aggregate(by_act_sub,
+#                   by=list(g.actname=by_act_sub$actname,g.subjID=by_act_sub$subjID),
+#                   mean)
+#meandat<-meandat%>%
+#     arrange(g.actname,g.subjID)%>%
+#     select(-actname,-subjID)
