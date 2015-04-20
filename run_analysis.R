@@ -13,8 +13,7 @@ library(data.table)
 library(plyr)
 library(dplyr)
 
-
-list.files("./UCI HAR Dataset/train")
+#list.files("./UCI HAR Dataset/train")
 
 #Store directory nmes for data files
 traindir<-"./UCI HAR Dataset/train/"
@@ -25,6 +24,23 @@ testdir<-"./UCI HAR Dataset/test/"
 #activity set
 feat<-read.table("./UCI HAR Dataset/features.txt")
 feat<-data.table(feat)
+
+#Clean up the feature names
+#replace "()-" with .
+cfeat<-gsub("\\(\\)-",".",feat[,V2])
+#remove the "()" at the end of each var name
+cfeat<-gsub("\\(\\)","",cfeat)
+#replace dashes with .
+cfeat<-gsub("-",".",cfeat)
+#replace commas with .
+cfeat<-gsub(",",".",cfeat)
+#replace ( with .
+cfeat<-gsub("\\(",".",cfeat)
+#remove )
+cfeat<-gsub("\\)","",cfeat)
+#finally convert to lower case
+cfeat <- as.data.frame(sapply(cfeat, tolower)) 
+rm(feat) # no need for feat table - we have what we need in cfeat
 
 #Describes each of the 6 activity types
 act_labels<-read.table("./UCI HAR Dataset/activity_labels.txt")
@@ -53,14 +69,10 @@ t_dat<-tbl_df(t_dat)
 
 rm(t_Y,t_subj) # clear vars - don't need these interim tables
 
-
-
-
 #map the training data set variable names to the feature name
-setnames(t_X,names(t_X),as.character(feat[,V2]))
+setnames(t_X,names(t_X),as.matrix(cfeat))
 
 #merge the subject data with the feature results
-
 traindata<-cbind(t_dat,t_X)
 rm(t_dat,t_X)
 
@@ -90,7 +102,7 @@ setnames(test_subj,"V1","subjID")
 test_X<-read.table(paste0(testdir,"X_test.txt"))
 #convert to data.table for speed and other functions
 test_X<-data.table(test_X)
-#read the training labels which contain the activity code
+#read the test labels which contain the activity code
 test_Y<-read.table(paste0(testdir,"Y_test.txt"))
 test_Y<-data.table(test_Y)
 
@@ -101,8 +113,8 @@ test_dat<-tbl_df(test_dat)
 rm(test_Y,test_subj) # clear vars - don't need these interim tables
 
 
-#map the training data set variable names to the feature name
-setnames(test_X,names(test_X),as.character(feat[,V2]))
+#map the test data set variable names to the feature name
+setnames(test_X,names(test_X),as.matrix(cfeat))
 
 #Merge the subject data with the feature results
 
