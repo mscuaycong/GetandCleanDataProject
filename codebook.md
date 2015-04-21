@@ -1,10 +1,10 @@
 
-##Transformed Datasets - produced by run_analysis.R
+#Transformed Datasets - produced by run_analysis.R
 
-#alldata : tidy dataset that has all 561 features/variables (see features.txt in original files) with the settype, subjID, actcode, actname.  The variables V1..Vn have been converted to the feature
+##alldata : tidy dataset that has all 561 features/variables (see features.txt in original files) with the settype, subjID, actcode, actname.  The variables V1..Vn have been converted to the feature
 names and actcode (1-6) is associated with the descriptive labels.  Observations from training and test data are combined here.
 
-#alldata_1:  is the datatable subset from alldata but only contains the variables that correspond to mean and standard deviation.  Alldata has all 561 features.			
+##alldata_1:  is the datatable subset from alldata but only contains the variables that correspond to mean and standard deviation.  Alldata has all 561 features.			
 this dataset has 10,299 observations			
 			
 	Variable (col)	Type	Description
@@ -99,6 +99,6 @@ this dataset has 10,299 observations
 	fbodybodygyromag.std	num	
 	fbodybodygyrojerkmag.std	num	
 
-#output dataset:meandata.txt
+##output dataset:meandata.txt
 -subset of alldata_1 with 180 observations containing the means of all of the feature measurements in alldata_1 grouped
 by activity and then by subject.  The variables settype and actcode have been dropped.
